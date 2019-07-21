@@ -1,9 +1,15 @@
-
+import random
 class PropriedadeModel(object):
 
     def __init__(self):
         self.custo_venda = 0
         self.valor_aluguel = 0
-        self.compra = False
-        self.propriedade = None
+        self.comprada = False
+        self.proprietario = None
         self.ordem = 0
+
+    def definir_custo_venda(self):
+        self.custo_venda = random.choice(range(100, 301))
+
+    def definir_valor_aluguel(self):
+        self.valor_aluguel = int(self.custo_venda/2)
