@@ -158,7 +158,7 @@ class PartidaBusiness(object):
 
     @staticmethod
     def resumo_partida(analise, turnos):
-        print('Timeout: ' + str(analise.timeout))
+        print('Time out: ' + str(analise.timeout))
         PartidaBusiness.calcular_media_turnos(analise, turnos)
         print('Média de turnos: ' + str(int(analise.turnos)))
 
