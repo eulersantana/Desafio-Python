@@ -6,9 +6,7 @@ class AnaliseModel(object):
         self.timeout = 0
         # Numero de vezes que roudou todo tabuleiro até alguem ganhar
         self.turnos = 0
-        # ganhadores
-        self.ganhadores = []
-        #
+        # Contador dos ganhadores
         self.vencedores = {
             TipoJogador.ALEATORIO.name: 0,
             TipoJogador.IMPULSIVO.name: 0,

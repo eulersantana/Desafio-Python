@@ -4,8 +4,8 @@ from model.tipo_jogador import TipoJogador
 from model.jogador import JogadorModel
 from utils.uitls import UtilsFunction
 
-
 class PartidaBusiness(object):
+
     @staticmethod
     def criar_tabuleiro():
         tabuleiro = []
@@ -37,12 +37,12 @@ class PartidaBusiness(object):
             propriedade.comprada = False
             propriedade.proprietario = None
 
-    # Colocando jogares em ordem para iniciar o jogo
     @staticmethod
     def jogadores():
         possibilidade = [x for x in range(1,5)]
         jogadores = []
 
+        # Selecionando os jogares em ordem aleatoria para iniciar o jogo
         while len(possibilidade) > 0:
             selecioando = random.choice(possibilidade)
             jogador = JogadorModel()
@@ -146,20 +146,19 @@ class PartidaBusiness(object):
         for key in analise.vencedores:
             analise.vencedores.update({key: (analise.vencedores.get(key)/total_vitorias) * 100})
 
-
     @staticmethod
-    def calcular_media_turnos(turnos):
-        total = 0
+    def calcular_media_turnos(analise, turnos):
+        analise.turnos = 0
         for val in turnos:
-            total += val
-        if total > 0:
-            return total/len(turnos)
-        return total
+            analise.turnos += val
+        if analise.turnos > 0:
+            analise.turnos = analise.turnos/len(turnos)
 
     @staticmethod
     def resumo_partida(analise, turnos):
         print('Timeout: ' + str(analise.timeout))
-        print('Média de turnos: ' + str(int(PartidaBusiness.calcular_media_turnos(turnos))))
+        PartidaBusiness.calcular_media_turnos(analise, turnos)
+        print('Média de turnos: ' + str(int(analise.turnos)))
 
         PartidaBusiness.percentual_vitorias(analise)
         vencedores = []
