@@ -11,7 +11,7 @@ class PartidaBusiness(object):
         tabuleiro = []
 
         for x in range(1, 41):
-            if x % 2 == 0:
+            if x % 2 != 0:
                 propriedade = PropriedadeModel()
                 propriedade.definir_custo_venda()
                 propriedade.definir_valor_aluguel()
@@ -65,6 +65,7 @@ class PartidaBusiness(object):
     @staticmethod
     def completar_volta(jogador):
         jogador.saldo += 100
+        jogador.posicao_atual = 0
 
     @staticmethod
     def atualizar_posicao(jogador, dado):
@@ -73,23 +74,31 @@ class PartidaBusiness(object):
     @staticmethod
     def compra_propriedade(jogador, propridade):
         if jogador.tipo == TipoJogador.IMPULSIVO:
-            propridade.comprada = True
-            jogador.propriedades.append(propridade)
+            if jogador.saldo >= propridade.custo_venda:
+                jogador.saldo -= propridade.custo_venda
+                propridade.comprada = True
+                jogador.propriedades.append(propridade)
 
         elif jogador.tipo == TipoJogador.EXIGENTE:
-            if propridade.valor_aluguel >= 50:
-                propridade.comprada = True
-                jogador.propriedades.append(propridade)
+            if jogador.saldo >= propridade.custo_venda:
+                if propridade.valor_aluguel >= 50:
+                    jogador.saldo -= propridade.custo_venda
+                    propridade.comprada = True
+                    jogador.propriedades.append(propridade)
 
         elif jogador.tipo == TipoJogador.CAUTELOSO:
-            if jogador.saldo - propridade.custo_venda >= 80:
-                propridade.comprada = True
-                jogador.propriedades.append(propridade)
+            if jogador.saldo >= propridade.custo_venda:
+                if jogador.saldo - propridade.custo_venda >= 80:
+                    jogador.saldo -= propridade.custo_venda
+                    propridade.comprada = True
+                    jogador.propriedades.append(propridade)
 
         elif jogador.tipo == TipoJogador.ALEATORIO:
-            if UtilsFunction.compra_or_nao():
-                propridade.comprada = True
-                jogador.propriedades.append(propridade)
+            if jogador.saldo >= propridade.custo_venda:
+                if UtilsFunction.compra_or_nao():
+                        jogador.saldo -= propridade.custo_venda
+                        propridade.comprada = True
+                        jogador.propriedades.append(propridade)
 
 
     @staticmethod
@@ -133,4 +142,4 @@ class PartidaBusiness(object):
             total += val
         if total > 0:
             return total/len(turnos)
-        return  total
+        return total
