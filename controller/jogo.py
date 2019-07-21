@@ -2,7 +2,7 @@ from config import ConfigPartida
 from business.partida import PartidaBusiness
 from utils.uitls import UtilsFunction
 from model.analise import AnaliseModel
-from model.tipo_jogador import TipoJogador
+
 class JogoController(object):
 
     @staticmethod
