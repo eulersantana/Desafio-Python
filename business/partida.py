@@ -37,6 +37,8 @@ class PartidaBusiness(object):
             propriedade.comprada = False
             propriedade.proprietario = None
 
+
+
     @staticmethod
     def jogadores():
         possibilidade = [x for x in range(1,5)]

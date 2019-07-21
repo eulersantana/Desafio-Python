@@ -49,6 +49,7 @@ class JogoController(object):
             ganhador = sorted(jogadores, key=lambda jogador: jogador.saldo, reverse=True)
 
             if ganhador[0].saldo == ganhador[1].saldo:
+                # Criterio de desempate
                 if ganhador[0].posicao_atual <= ganhador[1].posicao_atual:
                     copia = ganhador[0]
                     ganhador[0] = ganhador[1]
