@@ -1,2 +1,5 @@
 # removedo .idea
 .idea/
+
+# removendo config pycharm
+__pycache__/
