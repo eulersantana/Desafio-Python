@@ -21,17 +21,24 @@ class JogoController(object):
 
                 jogador_atual = jogadores.pop(0)
 
-                if jogador_atual.saldo > 0:
-                    if jogador_atual.posicao_atual + dado >= len(tabuleiro):
+                # Pegando os jogadores que ainda tem saldo
+                if jogador_atual.saldo >= 0:
+                    # Verificando se o jogador completou o tabuleiro
+                    if jogador_atual.posicao_atual + dado > len(tabuleiro):
                         PartidaBusiness.completar_volta(jogador_atual)
-                    elif tabuleiro[jogador_atual.posicao_atual + dado].get('propriedade') is not None:
-                        propriedade = tabuleiro[jogador_atual.posicao_atual + dado].get('propriedade')
+                    elif tabuleiro[(jogador_atual.posicao_atual + dado) - 1] is not None and \
+                            tabuleiro[(jogador_atual.posicao_atual + dado) - 1].get('propriedade') is not None:
+                        propriedade = tabuleiro[(jogador_atual.posicao_atual + dado) - 1].get('propriedade')
+
+                        # Verificando se a propriedade esta disponivel
                         if not propriedade.comprada:
                             PartidaBusiness.compra_propriedade(jogador_atual, propriedade)
                         else:
-                            PartidaBusiness.pagar_aluguel(jogador_atual, propriedade.valor_aluguel)
+                            # Pagando aluguel para
+                            PartidaBusiness.pagar_aluguel(jogador_atual, propriedade)
 
                 if jogador_atual.saldo < 0:
+                    PartidaBusiness.devolver_propridade(jogador_atual)
                     jogadores_fora.append(jogador_atual)
                 else:
                     PartidaBusiness.atualizar_posicao(jogador_atual, dado)
