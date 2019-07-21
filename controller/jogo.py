@@ -1,3 +1,4 @@
+from config import ConfigPartida
 from business.partida import PartidaBusiness
 from utils.uitls import UtilsFunction
 from model.analise import AnaliseModel
@@ -7,14 +8,14 @@ class JogoController(object):
     @staticmethod
     def start():
         analise = AnaliseModel()
-        simulacoes = 300
+        simulacoes = ConfigPartida.MAX_SIMULACOES
         turnos = []
         while simulacoes > 0:
             jogadores = PartidaBusiness.jogadores()
             tabuleiro = PartidaBusiness.criar_tabuleiro()
             jogadores_fora = []
             count_rodadas = 0
-            while len(jogadores_fora) < 4 and count_rodadas <= 1000:
+            while len(jogadores_fora) < 4 and count_rodadas <= ConfigPartida.TIMEOUT_PARTIDA:
                 count_rodadas += 1
                 dado = UtilsFunction.jogar_dado()
 
@@ -41,9 +42,11 @@ class JogoController(object):
 
             if ganhador[0].saldo == ganhador[1].saldo:
                 if ganhador[0].posicao_atual <= ganhador[1].posicao_atual:
+                    copia = ganhador[0]
                     ganhador[0] = ganhador[1]
+                    ganhador[1] = copia
 
-            if count_rodadas >= 1000:
+            if count_rodadas >= ConfigPartida.TIMEOUT_PARTIDA:
                 PartidaBusiness.contar_timeout(analise)
             else:
                 turnos.append(count_rodadas)
@@ -52,15 +55,5 @@ class JogoController(object):
 
             simulacoes -= 1
 
-        print('Timeout: ' + str(analise.timeout))
-        print('Média de turnos: ' + str(int(PartidaBusiness.calcular_media_turnos(turnos))))
-
-        PartidaBusiness.percentual_vitorias(analise)
-        print(TipoJogador.EXIGENTE.name + ': ' + str('% 6.2f' % analise.vencedores.get(TipoJogador.EXIGENTE.name)) + '%')
-        print(TipoJogador.CAUTELOSO.name + ': ' + str('% 6.2f' % analise.vencedores.get(TipoJogador.CAUTELOSO.name)) + '%')
-        print(TipoJogador.IMPULSIVO.name + ': ' + str('% 6.2f' % analise.vencedores.get(TipoJogador.IMPULSIVO.name)) + '%')
-        print(TipoJogador.ALEATORIO.name +': ' + str('% 6.2f' % analise.vencedores.get(TipoJogador.ALEATORIO.name)) + '%')
-
-        print('Maior Vencedor: ' + PartidaBusiness.maior_ganhador(analise))
-
+        PartidaBusiness.resumo_partida(analise, turnos)
 
