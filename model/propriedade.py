@@ -9,7 +9,7 @@ class PropriedadeModel(object):
         self.ordem = 0
 
     def definir_custo_venda(self):
-        self.custo_venda = int(random.choice(range(100, 10000)))
+        self.custo_venda = int(random.choice(range(100, 1000)))
 
     def definir_valor_aluguel(self):
         self.valor_aluguel = int(self.custo_venda/2)

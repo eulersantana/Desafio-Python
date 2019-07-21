@@ -43,10 +43,13 @@ class PartidaBusiness(object):
 
             if selecioando == TipoJogador.EXIGENTE.value:
                 jogador.jogador_exigente()
+
             elif selecioando == TipoJogador.CAUTELOSO.value:
                 jogador.jogador_cauteloso()
+
             elif selecioando == TipoJogador.IMPULSIVO.value:
                 jogador.jogador_impulsivo()
+
             elif selecioando == TipoJogador.ALEATORIO.value:
                 jogador.jogador_aletorio()
 
@@ -60,7 +63,7 @@ class PartidaBusiness(object):
         jogador.saldo -= valor_alugel
 
     @staticmethod
-    def completar_volta( jogador):
+    def completar_volta(jogador):
         jogador.saldo += 100
 
     @staticmethod
@@ -72,14 +75,17 @@ class PartidaBusiness(object):
         if jogador.tipo == TipoJogador.IMPULSIVO:
             propridade.comprada = True
             jogador.propriedades.append(propridade)
+
         elif jogador.tipo == TipoJogador.EXIGENTE:
             if propridade.valor_aluguel >= 50:
                 propridade.comprada = True
                 jogador.propriedades.append(propridade)
+
         elif jogador.tipo == TipoJogador.CAUTELOSO:
             if jogador.saldo - propridade.custo_venda >= 80:
                 propridade.comprada = True
                 jogador.propriedades.append(propridade)
+
         elif jogador.tipo == TipoJogador.ALEATORIO:
             if UtilsFunction.compra_or_nao():
                 propridade.comprada = True
@@ -119,3 +125,12 @@ class PartidaBusiness(object):
 
         for key in analise.vencedores:
             analise.vencedores.update({key: (analise.vencedores.get(key)/total_vitorias) * 100})
+
+    @staticmethod
+    def calcular_media_turnos(turnos):
+        total = 0
+        for val in turnos:
+            total += val
+        if total > 0:
+            return total/len(turnos)
+        return  total

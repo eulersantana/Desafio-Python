@@ -13,8 +13,9 @@ class JogoController(object):
             jogadores = PartidaBusiness.jogadores()
             tabuleiro = PartidaBusiness.criar_tabuleiro()
             jogadores_fora = []
+            turnos = []
             count_rodadas = 0
-            while len(jogadores_fora) < 3 and count_rodadas <= 1000:
+            while len(jogadores_fora) < 4 and count_rodadas <= 1000:
                 count_rodadas += 1
                 dado = UtilsFunction.jogar_dado()
 
@@ -34,23 +35,26 @@ class JogoController(object):
                     jogadores_fora.append(jogador_atual)
                 else:
                     PartidaBusiness.atualizar_posicao(jogador_atual, dado)
-                    jogadores.append(jogador_atual)
+
+                jogadores.append(jogador_atual)
 
             ganhador = sorted(jogadores, key=lambda jogador: jogador.saldo, reverse=True)
 
             if count_rodadas >= 1000:
                 PartidaBusiness.contar_timeout(analise)
+            else:
+                turnos.append(count_rodadas)
 
             PartidaBusiness.contar_vencedor(analise, ganhador[0].tipo.name)
 
             simulacoes -= 1
         PartidaBusiness.percentual_vitorias(analise)
         print('Timeout: ' + str(analise.timeout))
+        print('Média de turnos: ' + str(PartidaBusiness.calcular_media_turnos(turnos)))
         print(TipoJogador.EXIGENTE.name + ': ' + str('% 6.2f' % analise.vencedores.get(TipoJogador.EXIGENTE.name)) + '%')
         print(TipoJogador.CAUTELOSO.name + ': ' + str('% 6.2f' % analise.vencedores.get(TipoJogador.CAUTELOSO.name)) + '%')
         print(TipoJogador.IMPULSIVO.name + ': ' + str('% 6.2f' % analise.vencedores.get(TipoJogador.IMPULSIVO.name)) + '%')
         print(TipoJogador.ALEATORIO.name +': ' + str('% 6.2f' % analise.vencedores.get(TipoJogador.ALEATORIO.name)) + '%')
         print('Maior Vencedor: ' + PartidaBusiness.maior_ganhador(analise))
 
-        return 1
 
