@@ -5,7 +5,7 @@ foram simplificadas.
 
 Projeto desenvolvido com Python 3.7
 
-Configurações Básica(config.py):<br />
+Configurações Básicas(config.py):<br />
 
   	MAX_SIMULACOES = 300
     TIMEOUT_PARTIDA = 1000
