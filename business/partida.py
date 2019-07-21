@@ -37,6 +37,7 @@ class PartidaBusiness(object):
             propriedade.comprada = False
             propriedade.proprietario = None
 
+    # Colocando jogares em ordem para iniciar o jogo
     @staticmethod
     def jogadores():
         possibilidade = [x for x in range(1,5)]
@@ -80,6 +81,7 @@ class PartidaBusiness(object):
     @staticmethod
     def compra_propriedade(jogador, propridade):
         if jogador.tipo == TipoJogador.IMPULSIVO:
+            # O jogador impulsivo compra qualquer propriedade sobre a qual ele parar
             if jogador.saldo >= propridade.custo_venda:
                 jogador.saldo -= propridade.custo_venda
                 propridade.comprada = True
@@ -88,7 +90,8 @@ class PartidaBusiness(object):
 
         elif jogador.tipo == TipoJogador.EXIGENTE:
             if jogador.saldo >= propridade.custo_venda:
-                if propridade.valor_aluguel >= 50:
+                # O jogador exigente compra qualquer propriedade, desde que o valor do aluguel dela seja maior do que 50.
+                if propridade.valor_aluguel > 50:
                     jogador.saldo -= propridade.custo_venda
                     propridade.comprada = True
                     propridade.proprietario = jogador
@@ -96,6 +99,8 @@ class PartidaBusiness(object):
 
         elif jogador.tipo == TipoJogador.CAUTELOSO:
             if jogador.saldo >= propridade.custo_venda:
+                # O jogador cauteloso compra qualquer propriedade desde que ele tenha uma reserva de 80 saldo sobrando
+                # depois de realizada a compra.
                 if jogador.saldo - propridade.custo_venda >= 80:
                     jogador.saldo -= propridade.custo_venda
                     propridade.comprada = True
@@ -104,6 +109,7 @@ class PartidaBusiness(object):
 
         elif jogador.tipo == TipoJogador.ALEATORIO:
             if jogador.saldo >= propridade.custo_venda:
+                #  O jogador aleatório compra a propriedade que ele parar em cima com probabilidade de 50%.
                 if UtilsFunction.compra_or_nao():
                         jogador.saldo -= propridade.custo_venda
                         propridade.comprada = True

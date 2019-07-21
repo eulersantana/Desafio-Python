@@ -15,6 +15,7 @@ class JogoController(object):
             tabuleiro = PartidaBusiness.criar_tabuleiro()
             jogadores_fora = []
             count_rodadas = 0
+            # Execução até restar um unico jogador ou chegar no numero maximo de rodadas
             while len(jogadores_fora) < 4 and count_rodadas <= ConfigPartida.TIMEOUT_PARTIDA:
                 count_rodadas += 1
                 dado = UtilsFunction.jogar_dado()
